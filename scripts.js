@@ -38,6 +38,32 @@ document.getElementById('newCard').addEventListener('click', () => {
     createCard(imageUrl);
 });
 
+function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+}
+
+function showLinkCopied() {
+    const copyLinkButton = document.getElementById('copy_link');
+    copyLinkButton.classList.remove('btn-success');
+    copyLinkButton.classList.add('btn-info');
+    copyLinkButton.textContent = 'Link copied!';
+    setTimeout(() => {
+        copyLinkButton.classList.remove('btn-info');
+        copyLinkButton.classList.add('btn-success');
+        copyLinkButton.textContent = 'Copy Link';
+    }, 1000);
+}
+
+document.getElementById('copy_link').addEventListener('click', () => {
+    copyToClipboard(window.location.href);
+    showLinkCopied();
+});
+
 function createCard(imageUrl) {
     updateUrlParameter('img', imageUrl);
 
@@ -54,7 +80,7 @@ function createCard(imageUrl) {
     const qrCode = qrcode(0, 'M');
     qrCode.addData(window.location.href);
     qrCode.make();
-    qrCodeCanvas.innerHTML = qrCode.createImgTag(8);
+    qrCodeCanvas.innerHTML = qrCode.createImgTag(7);
 
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body';
