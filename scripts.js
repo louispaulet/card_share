@@ -10,6 +10,20 @@ const images = [
     'https://i.imgur.com/72nVed1.jpg'
 ];
 
+// Function to get URL parameter
+function getUrlParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Function to update URL parameter
+function updateUrlParameter(key, value) {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set(key, value);
+    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + urlParams.toString();
+    history.replaceState(null, null, newUrl);
+}
+
 function clearCards() {
     const cardContainer = document.getElementById('cardContainer');
     while (cardContainer.firstChild) {
@@ -25,6 +39,8 @@ document.getElementById('newCard').addEventListener('click', () => {
 });
 
 function createCard(imageUrl) {
+    updateUrlParameter('img', imageUrl);
+
     const cardContainer = document.getElementById('cardContainer');
     const card = document.createElement('div');
     card.className = 'card';
@@ -49,4 +65,11 @@ function createCard(imageUrl) {
 }
 
 // Load the initial card
-createCard(images[Math.floor(Math.random() * images.length)]);
+const imageUrlParam = getUrlParameter('img');
+if (imageUrlParam && images.includes(imageUrlParam)) {
+    createCard(imageUrlParam);
+} else {
+    const randomIndex = Math.floor(Math.random() * images.length);
+    const imageUrl = images[randomIndex];
+    createCard(imageUrl);
+}
