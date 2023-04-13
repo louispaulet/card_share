@@ -3,7 +3,8 @@ body {
 }
 
 .card {
-    margin: 10px;
+    margin: 10px auto; /* Update the margin to center the card horizontally */
+    max-width: 90%; /* Add a maximum width to prevent the card from occupying the full width on larger screens */
 }
 
 .card-img-top {

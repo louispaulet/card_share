@@ -54,7 +54,7 @@ function createCard(imageUrl) {
     const qrCode = qrcode(0, 'M');
     qrCode.addData(window.location.href);
     qrCode.make();
-    qrCodeCanvas.innerHTML = qrCode.createImgTag(4);
+    qrCodeCanvas.innerHTML = qrCode.createImgTag(8);
 
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body';
