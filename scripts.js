@@ -10,7 +10,15 @@ const images = [
     'https://i.imgur.com/72nVed1.jpg'
 ];
 
+function clearCards() {
+    const cardContainer = document.getElementById('cardContainer');
+    while (cardContainer.firstChild) {
+        cardContainer.removeChild(cardContainer.firstChild);
+    }
+}
+
 document.getElementById('newCard').addEventListener('click', () => {
+    clearCards();
     const randomIndex = Math.floor(Math.random() * images.length);
     const imageUrl = images[randomIndex];
     createCard(imageUrl);
@@ -26,22 +34,18 @@ function createCard(imageUrl) {
     img.className = 'card-img-top';
     card.appendChild(img);
 
-    const qrCodeCanvas = document.createElement('canvas');
-    new QRCode(qrCodeCanvas, {
-        text: window.location.href,
-    width: 128,
-    height: 128,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
-});
+    const qrCodeCanvas = document.createElement('div');
+    const qrCode = qrcode(0, 'M');
+    qrCode.addData(window.location.href);
+    qrCode.make();
+    qrCodeCanvas.innerHTML = qrCode.createImgTag(4);
 
-const cardBody = document.createElement('div');
-cardBody.className = 'card-body';
-cardBody.appendChild(qrCodeCanvas);
-card.appendChild(cardBody);
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+    cardBody.appendChild(qrCodeCanvas);
+    card.appendChild(cardBody);
 
-cardContainer.appendChild(card);
+    cardContainer.appendChild(card);
 }
 
 // Load the initial card
